@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "freertos.h": "c",
+        "*.tcc": "cpp",
+        "fstream": "cpp",
+        "iosfwd": "cpp",
+        "istream": "cpp",
+        "limits": "cpp",
+        "sstream": "cpp",
+        "streambuf": "cpp",
+        "new": "cpp"
+    }
+}
