@@ -9,14 +9,14 @@
 // #define LEVEL_SHIFTER_PIN 14
 
 //colors
-#define LIGHT_BRIGHTNESS 50
+#define LIGHT_BRIGHTNESS 40
 
 
 BluetoothSerial SerialBT;
 WS2811 ws2811(LED_STRIP_DATA_PIN, NUMBER_OF_LEDS);
 
 void setup() {
-    Serial.begin(115200);
+    // Serial.begin(115200);
     #ifdef LEVEL_SHIFTER_PIN
         pinMode(LEVEL_SHIFTER_PIN, OUTPUT);
         digitalWrite(LEVEL_SHIFTER_PIN, HIGH);
@@ -37,8 +37,8 @@ void loop() {
         package.fillPackageFromBT(SerialBT);
         if(package.commandCode == COMCODE_SOUND_LEDS){
             for(uint16_t i = 0; i < package.ledsArraySize; ++i){
-                ws2811.setPixel(i, package.ledsArray[(i*NUMBER_OF_COLORS)], package.ledsArray[(i*NUMBER_OF_COLORS) + 1], 
-                                package.ledsArray[(i*NUMBER_OF_COLORS) + 2]);
+                ws2811.setPixel(i, package.ledsArray[(i*NUMBER_OF_COLORS)], package.ledsArray[(i*NUMBER_OF_COLORS) + 2], 
+                                package.ledsArray[(i*NUMBER_OF_COLORS) + 1]); // last 2 elements are were exchanged because in library smth wrong and it mixed up green and blue
             }
         }else{
             ws2811.setAll(LIGHT_BRIGHTNESS, LIGHT_BRIGHTNESS, LIGHT_BRIGHTNESS);
