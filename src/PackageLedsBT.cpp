@@ -8,12 +8,16 @@ PackageLedsBT::~PackageLedsBT(){
 
 void PackageLedsBT::fillPackageFromBT(BluetoothSerial & serialBT){
     commandCode = (uint8_t)serialBT.read();
-    switch(commandCode){
-        case COMCODE_SOUND_LEDS:
-            ledsArraySize = read2ByteNumberFromBT(serialBT);
-            allocateArrayForLeds();
-            serialBT.readBytes(ledsArray, ledsArraySize * NUMBER_OF_COLORS);
-            break;
+    if(commandCode == COMCODE_LEDS_ARRAY){
+        ledsArraySize = read2ByteNumberFromBT(serialBT);
+        allocateArrayForLeds();
+        serialBT.readBytes(ledsArray, ledsArraySize * NUMBER_OF_COLORS);
+    }else if((commandCode == COMCODE_SOLID_COLOR) || 
+            (commandCode == COMCODE_RGB_EQ_SOUND) || 
+            (commandCode == COMCODE_ONE_COLOR_EQ_SOUND)){
+        color.red = (uint8_t)serialBT.read();
+        color.green = (uint8_t)serialBT.read();
+        color.blue = (uint8_t)serialBT.read();
     }
 }
 
